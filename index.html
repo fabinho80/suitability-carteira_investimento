@@ -1,0 +1,471 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Suitability — Aporte Finanças</title>
+  <style>
+    :root{
+      --bg:#07110f;
+      --card:#0b1a16;
+      --card2:#091512;
+      --border:#18362f;
+      --text:#e9f1ee;
+      --muted:#b7c9c3;
+      --accent:#e2b06d;
+    }
+    body{font-family:system-ui,Segoe UI,Roboto,Arial; margin:0; background:var(--bg); color:var(--text)}
+    .wrap{max-width:1020px; margin:0 auto; padding:28px}
+    .topbar{display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:12px}
+    .brand{display:flex; align-items:center; gap:10px}
+    .logo{width:38px; height:38px; border-radius:12px; background:linear-gradient(145deg, #0f2a24, #0a1512); border:1px solid var(--border); display:grid; place-items:center; font-weight:900; color:var(--accent)}
+    .logoImg{width:44px; height:44px; border-radius:14px; border:1px solid var(--border); object-fit:cover; background:#fff}
+    .tag{font-size:12px; color:var(--muted); border:1px solid var(--border); padding:6px 10px; border-radius:999px; background:#081411}
+    .card{background:var(--card); border:1px solid var(--border); border-radius:18px; padding:18px; margin:14px 0}
+    h1{margin:0 0 6px; font-size:28px}
+    h2{margin:0 0 10px; font-size:18px}
+    .muted{color:var(--muted); font-size:14px; line-height:1.4}
+    .q{margin:14px 0; padding:12px; border-radius:14px; background:var(--card2); border:1px solid var(--border)}
+    .q label{display:block; margin:8px 0; cursor:pointer}
+    .btns{display:flex; gap:10px; flex-wrap:wrap; margin-top:12px}
+    button{border:0; padding:10px 14px; border-radius:12px; cursor:pointer; font-weight:800}
+    .primary{background:var(--accent); color:#07110f}
+    .ghost{background:transparent; color:var(--text); border:1px solid #2a5348}
+    .grid{display:grid; grid-template-columns:1fr; gap:14px}
+    @media(min-width:920px){ .grid{grid-template-columns:1fr 1fr} }
+    .result{display:none}
+    .pill{display:inline-block; padding:6px 10px; border-radius:999px; background:#0a1613; border:1px solid #2a5348; margin-right:8px; font-size:13px}
+    .alloc{display:grid; grid-template-columns:1fr; gap:10px; margin-top:10px}
+    .bar{height:10px; background:#0a1613; border-radius:999px; overflow:hidden; border:1px solid #234a3f}
+    .bar > div{height:100%; background:var(--accent)}
+    img{max-width:100%; border-radius:16px; border:1px solid #234a3f}
+    .warn{background:#23170f; border:1px solid #7a4b2a; padding:10px; border-radius:12px; margin-top:10px}
+    .ok{background:#0f221c; border:1px solid #2a5348; padding:10px; border-radius:12px; margin-top:10px}
+    .small{font-size:12px}
+    .consent{display:flex; gap:10px; align-items:flex-start}
+    .divider{height:1px; background:rgba(255,255,255,.06); margin:14px 0}
+  
+    @media print{
+      body{background:#fff; color:#000}
+      .topbar, #consentArea, #formArea, .btns, .tag{display:none !important}
+      .card{border:0; background:#fff; margin:0; padding:0}
+      img{border:0}
+      .warn, .ok{border:1px solid #ddd}
+      .pill{border:1px solid #ddd}
+      .bar{border:1px solid #ddd}
+    }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="topbar">
+      <div class="brand">
+        <img class="logoImg" src="assets/logo_aporte.png" onerror="this.onerror=null;this.src='logo_aporte.png';" alt="Aporte Finanças" />
+        <div>
+          <div style="font-weight:900">Aporte Finanças</div>
+          <div class="muted small">Suitability • Método SuperCarteira</div>
+        </div>
+      </div>
+      <div class="tag">Uso educacional e de adequação</div>
+    </div>
+
+    <h1>Teste de Perfil do Investidor</h1>
+    <p class="muted">
+      Este questionário avalia <b>adequação</b> (objetivo, situação financeira e conhecimento). Responda com sinceridade.
+      O resultado indica um <b>perfil</b> e sugestões de alocação por “pedaços”, além de uma carteira simples por classes.
+    </p>
+
+    <div id="consentArea" class="card">
+      <h2>Antes de começar</h2>
+      <div class="muted">
+        • Este teste não garante rentabilidade e não substitui aconselhamento individual.<br>
+        • Investimentos podem oscilar e gerar perdas, inclusive no curto prazo.<br>
+        • O resultado serve para <b>adequação</b> e pode limitar produtos em caso de “travas de segurança”.
+      </div>
+      <div class="divider"></div>
+      
+      <div class="divider"></div>
+      <h2>Observações importantes</h2>
+      <div class="muted">
+        <ul style="margin:8px 0 0 18px; padding:0;">
+  <li>A alocação sugerida é baseada na <b>Teoria Moderna do Portfólio</b> de <b>Harry Markowitz</b>.</li>
+  <li>O perfil pode ser reavaliado periodicamente ou mediante mudanças na situação financeira.</li>
+  <li>Recomenda-se sempre buscar orientação de profissionais certificados antes de investir.</li>
+  <li><b>Rentabilidade passada não garante resultados futuros</b>.</li>
+  <li>Investimentos no exterior estão sujeitos a <b>variação cambial</b> e regulamentações específicas.</li>
+  <li>Diversificação não elimina o risco de perdas, mas pode ajudar a reduzi-lo.</li>
+</ul>
+      </div>
+
+      <label class="consent">
+        <input id="consentCheck" type="checkbox">
+        <span class="muted">Li e estou ciente. Quero prosseguir.</span>
+      </label>
+      <div class="btns">
+        <button class="primary" id="startBtn" type="button" disabled>Iniciar questionário</button>
+      </div>
+    </div>
+
+    <div id="formArea" class="card" style="display:none;">
+
+      <div class="grid">
+        <div>
+          <h2>1) Objetivo de investimento</h2>
+          <div class="muted">Marque uma opção por pergunta.</div>
+
+          <div class="q">
+            <b>A1. Qual o principal motivo para você investir seu dinheiro?</b>
+            <label><input type="radio" name="A1" value="0" required> a) Proteger meu dinheiro da inflação e ter segurança, mesmo que o retorno seja baixo.</label>
+            <label><input type="radio" name="A1" value="1"> b) Fazer meu dinheiro crescer de forma equilibrada, aceitando um pouco de risco para ter retornos melhores.</label>
+            <label><input type="radio" name="A1" value="2"> c) Buscar o maior crescimento possível do meu dinheiro, mesmo que isso signifique correr riscos maiores.</label>
+            <label><input type="radio" name="A1" value="3"> d) Aumentar muito meu patrimônio em pouco tempo, aceitando perdas grandes se necessário.</label>
+          </div>
+
+          <div class="q">
+            <b>A2. Por quanto tempo você pretende manter seus investimentos?</b>
+            <label><input type="radio" name="A2" value="0" required> a) Menos de 1 ano (curto prazo).</label>
+            <label><input type="radio" name="A2" value="1"> b) De 1 a 5 anos (médio prazo).</label>
+            <label><input type="radio" name="A2" value="2"> c) Mais de 5 anos (longo prazo).</label>
+            <label><input type="radio" name="A2" value="3"> d) Não tenho prazo definido, posso esperar o tempo que for preciso para ter altos retornos.</label>
+          </div>
+
+          <div class="q">
+            <b>A3. Você precisará do dinheiro investido em caso de emergência?</b>
+            <label><input type="radio" name="A3" value="0" required> a) Sim, preciso ter acesso rápido a todo o dinheiro se algo inesperado acontecer.</label>
+            <label><input type="radio" name="A3" value="1"> b) Talvez, uma parte do dinheiro pode ser necessária para emergências.</label>
+            <label><input type="radio" name="A3" value="2"> c) Não, tenho outras reservas para emergências e não pretendo mexer neste dinheiro.</label>
+            <label><input type="radio" name="A3" value="3"> d) Não, este dinheiro é para objetivos de muito longo prazo e não será usado para emergências.</label>
+          </div>
+
+          <div class="q">
+            <b>A4. Qual o seu nível de conforto com a possibilidade de perder dinheiro em seus investimentos?</b>
+            <label><input type="radio" name="A4" value="0" required> a) Não aceito perder dinheiro, mesmo que seja uma pequena quantia.</label>
+            <label><input type="radio" name="A4" value="1"> b) Aceito pequenas perdas, desde que o potencial de ganho seja maior no futuro.</label>
+            <label><input type="radio" name="A4" value="2"> c) Aceito perdas moderadas, pois entendo que fazem parte do processo para buscar retornos mais altos.</label>
+            <label><input type="radio" name="A4" value="3"> d) Aceito perdas significativas, pois sei que são parte de investimentos com alto potencial de retorno.</label>
+          </div>
+        </div>
+
+        <div>
+          <h2>2) Situação financeira</h2>
+          <div class="muted">Marque uma opção por pergunta.</div>
+
+          <div class="q">
+            <b>B1. Qual a sua principal fonte de renda atualmente?</b>
+            <label><input type="radio" name="B1" value="0" required> a) Salário fixo, aposentadoria ou pensão (renda estável).</label>
+            <label><input type="radio" name="B1" value="1"> b) Renda variável (comissões, lucros de empresa, autônomo) ou várias fontes de renda.</label>
+            <label><input type="radio" name="B1" value="2"> c) Renda de investimentos ou de negócios próprios com alto potencial de crescimento.</label>
+            <label><input type="radio" name="B1" value="3"> d) Renda proveniente de ativos de alto risco ou negócios muito voláteis.</label>
+          </div>
+
+          <div class="q">
+            <b>B2. Que parte da sua renda mensal você consegue guardar para investir?</b>
+            <label><input type="radio" name="B2" value="0" required> a) Menos de 10% da minha renda.</label>
+            <label><input type="radio" name="B2" value="1"> b) Entre 10% e 20% da minha renda.</label>
+            <label><input type="radio" name="B2" value="2"> c) Mais de 20% da minha renda.</label>
+            <label><input type="radio" name="B2" value="3"> d) Consigo investir uma parte muito grande da minha renda e tenho outras fontes de recursos.</label>
+          </div>
+
+          <div class="q">
+            <b>B3. Você possui uma reserva de emergência (dinheiro guardado para imprevistos)?</b>
+            <label><input type="radio" name="B3" value="0" required> a) Não tenho reserva de emergência ou ela é muito pequena.</label>
+            <label><input type="radio" name="B3" value="1"> b) Tenho uma reserva que cobre de 1 a 3 meses das minhas despesas básicas.</label>
+            <label><input type="radio" name="B3" value="2"> c) Tenho uma reserva que cobre mais de 6 meses das minhas despesas básicas.</label>
+            <label><input type="radio" name="B3" value="3"> d) Tenho uma reserva muito robusta e não me preocupo com imprevistos financeiros.</label>
+          </div>
+
+          <div class="q">
+            <b>B4. Se o valor dos seus investimentos caísse 10% em um mês, como você reagiria?</b>
+            <label><input type="radio" name="B4" value="0" required> a) Ficaria muito preocupado(a) e provavelmente resgataria tudo.</label>
+            <label><input type="radio" name="B4" value="1"> b) Ficaria preocupado(a), mas esperaria para ver se o mercado se recupera.</label>
+            <label><input type="radio" name="B4" value="2"> c) Veria como uma oportunidade para comprar mais, pois acredito na recuperação a longo prazo.</label>
+            <label><input type="radio" name="B4" value="3"> d) Não me preocuparia, pois entendo que é normal em investimentos de alto risco e longo prazo.</label>
+          </div>
+
+          <h2 style="margin-top:18px;">3) Conhecimento e experiência</h2>
+          <div class="muted">Marque uma opção por pergunta.</div>
+
+          <div class="q">
+            <b>C1. Qual o seu nível de conhecimento sobre o mercado financeiro?</b>
+            <label><input type="radio" name="C1" value="0" required> a) Básico: conheço apenas investimentos simples como poupança e renda fixa tradicional.</label>
+            <label><input type="radio" name="C1" value="1"> b) Intermediário: conheço renda fixa, fundos e ações, mas não me aprofundo muito.</label>
+            <label><input type="radio" name="C1" value="2"> c) Avançado: entendo bem ações, fundos mais complexos, derivativos e mercados internacionais.</label>
+            <label><input type="radio" name="C1" value="3"> d) Especialista: tenho profundo conhecimento em diversas classes de ativos, inclusive as mais complexas.</label>
+          </div>
+
+          <div class="q">
+            <b>C2. Você já investiu em produtos considerados de maior risco (ações, multimercado, câmbio)?</b>
+            <label><input type="radio" name="C2" value="0" required> a) Nunca investi em produtos de risco.</label>
+            <label><input type="radio" name="C2" value="1"> b) Sim, mas com pouca experiência ou em pequena parte do meu dinheiro.</label>
+            <label><input type="radio" name="C2" value="2"> c) Sim, tenho experiência e uma parte relevante do meu dinheiro está em produtos de risco.</label>
+            <label><input type="radio" name="C2" value="3"> d) Sim, tenho muita experiência e a maior parte do meu dinheiro está em produtos de alto risco.</label>
+          </div>
+
+          <div class="q">
+            <b>C3. Como você busca informações para tomar decisões de investimento?</b>
+            <label><input type="radio" name="C3" value="0" required> a) Confio principalmente no meu gerente de banco ou em indicações de amigos.</label>
+            <label><input type="radio" name="C3" value="1"> b) Leio notícias, artigos e acompanho o mercado financeiro de forma geral.</label>
+            <label><input type="radio" name="C3" value="2"> c) Faço cursos, leio livros, analiso relatórios e busco diferentes fontes de informação.</label>
+            <label><input type="radio" name="C3" value="3"> d) Realizo minhas próprias análises aprofundadas e consulto especialistas de diversas áreas.</label>
+          </div>
+
+          <div class="q">
+            <b>C4. Você entende que, para ter chance de retornos muito altos, é preciso aceitar riscos muito altos?</b>
+            <label><input type="radio" name="C4" value="0" required> a) Não, busco retornos altos com baixo risco.</label>
+            <label><input type="radio" name="C4" value="1"> b) Sim, entendo a relação risco-retorno, mas prefiro um equilíbrio.</label>
+            <label><input type="radio" name="C4" value="2"> c) Sim, e estou disposto(a) a assumir riscos elevados para buscar retornos significativos.</label>
+            <label><input type="radio" name="C4" value="3"> d) Sim, e busco ativamente investimentos com o maior risco possível para maximizar meus ganhos.</label>
+          </div>
+
+          <div class="btns">
+            <button class="primary" id="calcBtn">Ver meu resultado</button>
+            <button class="ghost" id="resetBtn" type="button">Limpar respostas</button>
+          </div>
+
+          <div class="warn small">
+            <b>Importante:</b> este questionário mede adequação. Não substitui diagnóstico financeiro individual.
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div id="resultArea" class="card result">
+      <h2>Resultado</h2>
+      <div id="badges"></div>
+      <p class="muted" id="scoreLine"></p>
+
+      <div id="travaBox" class="warn" style="display:none;">
+        <b>Trava de proteção acionada.</b>
+        <div class="small">Sem reserva de emergência e/ou sem capacidade de pagar imprevistos sem mexer no investimento. O perfil foi limitado por segurança.</div>
+      </div>
+
+      <div class="ok small" id="interpretation"></div>
+
+      <h2 style="margin-top:14px;">Pizza 1 — Pedaços (método Aporte Finanças)</h2>
+      <div class="muted">Base (Liquidez & Proteção) • Qualidade (Renda & Consistência) • Mundo (Dólar & Global) • Assimetria (Proteção Convexa)</div>
+      <div class="ok small" style="margin-top:10px;">
+        <b>Rebalanceamento (reponderar):</b> para manter o risco do perfil, repondere a Pizza 1 periodicamente (ex.: a cada 6 meses) <b>ou</b> quando algum pedaço desviar mais de ~5 p.p. do alvo.
+      </div>
+      <div id="alloc" class="alloc"></div>
+      <img id="pizzaImg" alt="Pizza pedaços" style="margin-top:12px" onerror="this.onerror=null; this.src=this.src.replace('pizzas/', '');"/>
+
+      <h2 style="margin-top:18px;">Pizza 2 — Carteira simples (classes)</h2>
+      <div class="muted">Distribuição simplificada: Selic (reserva) • IPCA+ 2029 • FIIs • Ações BR • Ações US • REITs</div>
+      <div class="ok small" style="margin-top:10px;">
+        <b>Rebalanceamento (reponderar):</b> para manter o risco do perfil, a carteira deve ser reponderada periodicamente (ex.: a cada 6 meses) <b>ou</b> quando algum bloco desviar mais de ~5 p.p. do alvo.
+      </div>
+      <div id="allocSimple" class="alloc" style="margin-top:10px;"></div>
+      <img id="pizzaSimpleImg" alt="Pizza carteira simples" style="margin-top:12px" onerror="this.onerror=null; this.src=this.src.replace('pizzas/', '');"/>
+
+      <h2 style="margin-top:18px;">Sugestões (exemplos por pedaço)</h2>
+      <div class="muted" id="suggestions"></div>
+
+      
+      <div class="divider"></div>
+      <div class="muted small">
+        <b>Observações importantes:</b>
+        <ul style="margin:8px 0 0 18px; padding:0;">
+  <li>A alocação sugerida é baseada na <b>Teoria Moderna do Portfólio</b> de <b>Harry Markowitz</b>.</li>
+  <li>O perfil pode ser reavaliado periodicamente ou mediante mudanças na situação financeira.</li>
+  <li>Recomenda-se sempre buscar orientação de profissionais certificados antes de investir.</li>
+  <li><b>Rentabilidade passada não garante resultados futuros</b>.</li>
+  <li>Investimentos no exterior estão sujeitos a <b>variação cambial</b> e regulamentações específicas.</li>
+  <li>Diversificação não elimina o risco de perdas, mas pode ajudar a reduzi-lo.</li>
+</ul>
+      </div>
+
+      <div class="btns" style="margin-top:14px;">
+        <button class="ghost" id="pdfBtn" type="button">Salvar em PDF</button>
+        <button class="primary" id="backBtn" type="button">Voltar</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    
+    const simpleAllocations = {
+      "Conservador": {
+        "Tesouro Selic (Reserva)": 35,
+        "Tesouro IPCA+ 2029 (Proteção)": 25,
+        "FIIs (Renda BR)": 15,
+        "Ações BR (Crescimento BR)": 5,
+        "Ações US (Crescimento USD)": 10,
+        "REITs (Renda USD)": 10
+      },
+      "Moderado": {
+        "Tesouro Selic (Reserva)": 20,
+        "Tesouro IPCA+ 2029 (Proteção)": 20,
+        "FIIs (Renda BR)": 15,
+        "Ações BR (Crescimento BR)": 15,
+        "Ações US (Crescimento USD)": 20,
+        "REITs (Renda USD)": 10
+      },
+      "Arrojado": {
+        "Tesouro Selic (Reserva)": 10,
+        "Tesouro IPCA+ 2029 (Proteção)": 15,
+        "FIIs (Renda BR)": 15,
+        "Ações BR (Crescimento BR)": 20,
+        "Ações US (Crescimento USD)": 30,
+        "REITs (Renda USD)": 10
+      },
+      "Agressivo": {
+        "Tesouro Selic (Reserva)": 5,
+        "Tesouro IPCA+ 2029 (Proteção)": 10,
+        "FIIs (Renda BR)": 10,
+        "Ações BR (Crescimento BR)": 25,
+        "Ações US (Crescimento USD)": 40,
+        "REITs (Renda USD)": 10
+      }
+    };
+
+const allocations = {
+      "Conservador": { "Base (Liquidez & Proteção)":55, "Qualidade (Renda & Consistência)":20, "Mundo (Dólar & Global)":15, "Assimetria (Proteção Convexa)":10 },
+      "Moderado":    { "Base (Liquidez & Proteção)":35, "Qualidade (Renda & Consistência)":30, "Mundo (Dólar & Global)":25, "Assimetria (Proteção Convexa)":10 },
+      "Arrojado":    { "Base (Liquidez & Proteção)":20, "Qualidade (Renda & Consistência)":40, "Mundo (Dólar & Global)":30, "Assimetria (Proteção Convexa)":10 },
+      "Agressivo":   { "Base (Liquidez & Proteção)":10, "Qualidade (Renda & Consistência)":45, "Mundo (Dólar & Global)":35, "Assimetria (Proteção Convexa)":10 },
+    };
+
+    const examples = {
+      "Base (Liquidez & Proteção)": "Tesouro Selic • CDB/LC pós com liquidez • Fundos DI (ver taxa, cotização e IOF)",
+      "Qualidade (Renda & Consistência)": "Crédito privado diversificado • IPCA+ curto/médio • Multimercado (conforme perfil) • Fundos de ações (perfis mais altos)",
+      "Mundo (Dólar & Global)": "S&P 500 (ETF/fundo) • ETF global • Renda fixa em USD (bonds via ETF/fundo) • BDRs/ETFs",
+      "Assimetria (Proteção Convexa)": "Ouro (ETF/fundo) • Dólar/cambial • Estratégias defensivas/baixa volatilidade"
+    };
+
+    function getVal(name){
+      const el = document.querySelector(`input[name="${name}"]:checked`);
+      return el ? parseInt(el.value,10) : null;
+    }
+
+    function compute(){
+      const A = ["A1","A2","A3","A4"].map(getVal);
+      const B = ["B1","B2","B3","B4"].map(getVal);
+      const C = ["C1","C2","C3","C4"].map(getVal);
+
+      if ([...A,...B,...C].some(v => v===null)) return {error:true};
+
+      const Araw = A.reduce((a,b)=>a+b,0); // 0..12
+      const Braw = B.reduce((a,b)=>a+b,0); // 0..12
+      const Craw = C.reduce((a,b)=>a+b,0); // 0..12
+
+      const total = Araw + Braw + Craw; // 0..36
+      const score = (total/36)*100;
+
+      // Trava: sem reserva (B3=a) e/ou reação de pânico (B4=a)
+      const trava = (getVal("B3")===0) || (getVal("B4")===0);
+
+      let tolerancia = (score < 40) ? "Baixa" : (score < 70) ? "Média" : "Alta";
+
+      let perfil;
+      if (trava){
+        perfil = (score < 50) ? "Conservador" : (score < 70) ? "Moderado" : "Arrojado";
+      } else {
+        perfil = (score < 40) ? "Conservador" : (score < 60) ? "Moderado" : (score < 80) ? "Arrojado" : "Agressivo";
+      }
+
+      return {score, tolerancia, perfil, trava};
+    }
+
+    function renderSimpleAlloc(perfil){
+      const alloc = simpleAllocations[perfil];
+      const wrap = document.getElementById("allocSimple");
+      wrap.innerHTML = "";
+      Object.entries(alloc).forEach(([k,v])=>{
+        const row = document.createElement("div");
+        row.innerHTML = `
+          <div><b>${k}</b> — ${v}%</div>
+          <div class="bar"><div style="width:${v}%;"></div></div>
+        `;
+        wrap.appendChild(row);
+      });
+    }
+
+    function renderAlloc(perfil){
+      const alloc = allocations[perfil];
+      const wrap = document.getElementById("alloc");
+      wrap.innerHTML = "";
+      Object.entries(alloc).forEach(([k,v])=>{
+        const row = document.createElement("div");
+        row.innerHTML = `
+          <div><b>${k}</b> — ${v}%</div>
+          <div class="bar"><div style="width:${v}%;"></div></div>
+          <div class="muted small">${examples[k]}</div>
+        `;
+        wrap.appendChild(row);
+      });
+
+      const sug = document.getElementById("suggestions");
+      sug.innerHTML = `
+        <b>Base:</b> ${examples["Base (Liquidez & Proteção)"]}<br><br>
+        <b>Qualidade:</b> ${examples["Qualidade (Renda & Consistência)"]}<br><br>
+        <b>Mundo (USD):</b> ${examples["Mundo (Dólar & Global)"]}<br><br>
+        <b>Assimetria:</b> ${examples["Assimetria (Proteção Convexa)"]}
+      `;
+    }
+
+    function showResult(res){
+      document.getElementById("formArea").style.display = "none";
+      document.getElementById("resultArea").style.display = "block";
+
+      document.getElementById("scoreLine").textContent = `Pontuação: ${res.score.toFixed(1)} / 100`;
+
+      const badges = document.getElementById("badges");
+      badges.innerHTML = `
+        <span class="pill">Tolerância: <b>${res.tolerancia}</b></span>
+        <span class="pill">Perfil: <b>${res.perfil}</b></span>
+      `;
+
+      document.getElementById("travaBox").style.display = res.trava ? "block" : "none";
+
+      document.getElementById("interpretation").innerHTML =
+        `Interpretação rápida: este perfil busca <b>${res.perfil==="Conservador"?"estabilidade e liquidez":""
+          }${res.perfil==="Moderado"?"equilíbrio entre crescimento e proteção":""
+          }${res.perfil==="Arrojado"?"crescimento com tolerância a oscilações":""
+          }${res.perfil==="Agressivo"?"crescimento máximo com oscilações relevantes":""
+        }</b>. Rebalanceie periodicamente e respeite seu prazo.`;
+
+      renderAlloc(res.perfil);
+      renderSimpleAlloc(res.perfil);
+
+      document.getElementById("pizzaImg").src = `pizzas/pizza_${res.perfil.toLowerCase()}.png`;
+      document.getElementById("pizzaSimpleImg").src = `pizzas/pizza_simples_${res.perfil.toLowerCase()}.png`;
+    }
+
+    document.getElementById("calcBtn").addEventListener("click", (e)=>{
+      e.preventDefault();
+      const res = compute();
+      if (res.error){
+        alert("Responda todas as perguntas para ver o resultado.");
+        return;
+      }
+      showResult(res);
+      window.scrollTo({top:0, behavior:"smooth"});
+    });
+
+    document.getElementById("resetBtn").addEventListener("click", ()=>{
+      document.querySelectorAll("input[type=radio]").forEach(i=>i.checked=false);
+    });
+
+    document.getElementById("pdfBtn").addEventListener("click", ()=>{ window.print(); });
+
+    document.getElementById("backBtn").addEventListener("click", ()=>{
+      document.getElementById("resultArea").style.display = "none";
+      document.getElementById("formArea").style.display = "block";
+      window.scrollTo({top:0, behavior:"smooth"});
+    });
+
+    // Consent flow
+    const consentCheck = document.getElementById("consentCheck");
+    const startBtn = document.getElementById("startBtn");
+    consentCheck.addEventListener("change", ()=>{
+      startBtn.disabled = !consentCheck.checked;
+    });
+    startBtn.addEventListener("click", ()=>{
+      document.getElementById("consentArea").style.display = "none";
+      document.getElementById("formArea").style.display = "block";
+      window.scrollTo({top:0, behavior:"smooth"});
+    });
+  </script>
+</body>
+</html>
